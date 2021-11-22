@@ -1,4 +1,4 @@
-package code;
+package code.DTO;
 
 public class CodeReview {
 }
