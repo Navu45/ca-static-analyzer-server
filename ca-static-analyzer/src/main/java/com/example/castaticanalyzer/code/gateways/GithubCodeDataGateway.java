@@ -1,20 +1,16 @@
-package code.gateways;
+package com.example.castaticanalyzer.code.gateways;
 
-import code.DTO.CodeModel;
-import code.DTO.GithubRepo;
+import com.example.castaticanalyzer.code.DTO.CodeModel;
+import com.example.castaticanalyzer.code.DTO.GithubRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.stereotype.Repository;
 
-import javax.json.Json;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 

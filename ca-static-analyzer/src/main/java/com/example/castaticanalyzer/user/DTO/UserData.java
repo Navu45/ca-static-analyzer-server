@@ -1,4 +1,4 @@
-package user;
+package com.example.castaticanalyzer.user.DTO;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,6 +1,6 @@
-package code.gateways;
+package com.example.castaticanalyzer.code.gateways;
 
-import code.DTO.CodeModel;
+import com.example.castaticanalyzer.code.DTO.CodeModel;
 
 import java.io.IOException;
 import java.util.Map;

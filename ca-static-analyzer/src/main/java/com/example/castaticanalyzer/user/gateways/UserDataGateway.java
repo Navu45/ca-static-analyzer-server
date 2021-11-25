@@ -1,4 +1,4 @@
-package user;
+package com.example.castaticanalyzer.user.gateways;
 
 import org.springframework.stereotype.Repository;
 
