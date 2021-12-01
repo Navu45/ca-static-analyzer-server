@@ -29,7 +29,6 @@
 
 lexer grammar JavaLexer;
 
-
 // Keywords
 
 ABSTRACT:           'abstract';
@@ -158,6 +157,12 @@ URSHIFT_ASSIGN:     '>>>=';
 
 // Java 8 tokens
 
+// Clean architecture
+
+CLEAN_ARCHITECTURE_UNIT
+    : '/** ' ('@DomainEntity' | '@UseCase' | '@InterfaceAdapter' | '@Framework') ' */';
+
+
 ARROW:              '->';
 COLONCOLON:         '::';
 
@@ -169,7 +174,7 @@ ELLIPSIS:           '...';
 // Whitespace and comments
 
 WS:                 [ \t\r\n\u000C]+ -> channel(HIDDEN);
-COMMENT:            '/*' .*? '*/'    -> channel(HIDDEN);
+COMMENT:            '/*' .*? '*/' -> channel(HIDDEN);
 LINE_COMMENT:       '//' ~[\r\n]*    -> channel(HIDDEN);
 
 // Identifiers

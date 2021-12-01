@@ -33,9 +33,10 @@ options {
     tokenVocab=JavaLexer;
 }
 
+unitDeclaration :  CLEAN_ARCHITECTURE_UNIT;
 
 compilationUnit
-    : packageDeclaration? importDeclaration* typeDeclaration* EOF
+    : packageDeclaration? importDeclaration* unitDeclaration? typeDeclaration* EOF
     ;
 
 packageDeclaration

@@ -38,10 +38,10 @@ test {
 
 generateGrammarSource {
     maxHeapSize = "128m"
-    outputDirectory(file("${buildDir}/generated-src/antlr/"))
-    arguments += ["-package", "com.example.castaticanalyzer.analyzer.antlr", "-visitor", "-long-messages"]
+    outputDirectory(file("${buildDir}/generated-src/antlrGenerated/"))
+    arguments += ["-package", "com.example.castaticanalyzer.analyzer.antlrGenerated", "-visitor", "-long-messages"]
     doLast {
-       ant.move file: "${buildDir}/generated-src/antlr/",
+       ant.move file: "${buildDir}/generated-src/antlrGenerated/",
                 todir: "src/main/java/com/example/castaticanalyzer/analyzer/"
     }
 }

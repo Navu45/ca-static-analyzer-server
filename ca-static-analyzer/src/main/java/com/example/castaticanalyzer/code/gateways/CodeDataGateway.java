@@ -1,10 +1,10 @@
 package com.example.castaticanalyzer.code.gateways;
 
-import com.example.castaticanalyzer.code.DTO.CodeModel;
+import com.example.castaticanalyzer.code.entity.CodeModel;
+import com.example.castaticanalyzer.code.entity.GithubRepo;
 
 import java.io.IOException;
-import java.util.Map;
 
 public interface CodeDataGateway {
-    CodeModel getCodeModel(Map<String, Object> requestBody) throws IOException;
+    CodeModel getCodeModel(String[] targetConcepts, GithubRepo repo) throws IOException;
 }
