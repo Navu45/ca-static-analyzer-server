@@ -1,7 +1,7 @@
 package com.example.castaticanalyzer.code.gateways;
 
-import com.example.castaticanalyzer.code.entity.CodeModel;
-import com.example.castaticanalyzer.code.entity.GithubRepo;
+import com.example.castaticanalyzer.code.DTO.Code;
+import com.example.castaticanalyzer.code.DTO.GithubRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,10 +16,6 @@ import java.util.*;
 
 @Repository
 public class GitHubCodeDataGateway implements CodeDataGateway{
-    @Override
-    public CodeModel getCodeModel(String[] targetConcepts, GithubRepo repo) throws IOException {
-        return new CodeModel(getSourceCode(repo), targetConcepts);
-    }
 
     private String sendHTTPSRequest(HttpsURLConnection connection) throws IOException {
         connection.setRequestProperty("User-Agent", "Mozilla/5.0");
@@ -101,13 +97,13 @@ public class GitHubCodeDataGateway implements CodeDataGateway{
         return sourceCodeFilePathList.toArray(new String[0]);
     }
 
-    private List<String> getSourceCode(GithubRepo repo) throws IOException {
+    public List<Code> getSourceCode(GithubRepo repo) throws IOException {
         String[] filePaths = getAllSourceCodeFilePaths(repo);
-        List<String> sourceCode = new ArrayList<>(filePaths.length);
+        List<Code> sourceCode = new ArrayList<>(filePaths.length);
         for (String path :
                 filePaths) {
             String codeData = sendHTTPSRequest(repo.getFileRawContentURL(path));
-            sourceCode.add(codeData);
+            sourceCode.add(new Code(path, codeData));
         }
         return sourceCode;
     }

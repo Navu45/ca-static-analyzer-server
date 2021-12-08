@@ -1,19 +1,37 @@
-package com.example.castaticanalyzer.analyzer.antlrImpl;
+package com.example.castaticanalyzer.analyzer.parsing;
 
+import com.example.castaticanalyzer.analyzer.antlrImpl.CleanArchitectureVisitor;
 import com.example.castaticanalyzer.analyzer.antlrGenerated.JavaLexer;
 import com.example.castaticanalyzer.analyzer.antlrGenerated.JavaParser;
-import com.example.castaticanalyzer.code.entity.CodeReview;
+import com.example.castaticanalyzer.analyzer.controllers.AnalyzerController;
+import com.example.castaticanalyzer.code.DTO.Code;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Parser;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.springframework.stereotype.Component;
 
-@Component
-public class AntlrAnalyzer {
+import java.util.ArrayList;
+import java.util.List;
 
-    public CodeReview parseCode(String code)
+/** @DomainEntity */
+@Component
+public class CodeParser {
+    AnalyzerController controller;
+
+    public List<ParsedCode> getCodeParsedCode(List<Code> codeList) {
+        List<ParsedCode> parsedCodeList = new ArrayList<>();
+        for (Code code :
+                codeList) {
+            ParsedCode review = parseCode(code.getData());
+            review.setSourceCodeName(code.getName());
+            parsedCodeList.add(review);
+        }
+        return parsedCodeList;
+    }
+
+
+    public ParsedCode parseCode(String code)
     {
         JavaParser javaParser = (JavaParser) initializeParser(code);
         CleanArchitectureVisitor visitor = new CleanArchitectureVisitor();

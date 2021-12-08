@@ -1,4 +1,4 @@
-package com.example.castaticanalyzer.code.entity;
+package com.example.castaticanalyzer.code.DTO;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +21,7 @@ public class GithubRepo {
     @Column(name = "repo")
     private String repo;
 
-    @Column(name = "sourceDir", columnDefinition = "src/main")
+    @Column(name = "sourceDir")
     private String sourceDir;
 
     public GithubRepo() {

@@ -1,12 +1,13 @@
 package com.example.castaticanalyzer.analyzer.services;
 
-import com.example.castaticanalyzer.code.entity.CodeModel;
-import com.example.castaticanalyzer.code.entity.CodeReview;
-import com.example.castaticanalyzer.code.entity.GithubRepo;
+import com.example.castaticanalyzer.code.DTO.Code;
+import com.example.castaticanalyzer.analyzer.parsing.ParsedCode;
+import com.example.castaticanalyzer.code.DTO.GithubRepo;
 import com.example.castaticanalyzer.code.gateways.GitHubCodeDataGateway;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class CodeAnalysisService {
@@ -14,14 +15,14 @@ public class CodeAnalysisService {
     GitHubCodeDataGateway githubCodeDataGateway;
 
 
-    public CodeReview reviewGitHubSourceCode(String[] targetConcepts, GithubRepo repo) {
-        CodeReview codeReview = new CodeReview();
-        CodeModel codeModel;
+    public ParsedCode reviewGitHubSourceCode(GithubRepo repo) {
+        ParsedCode parsedCode = new ParsedCode();
+        List<Code> codeList;
         try {
-            codeModel = githubCodeDataGateway.getCodeModel(targetConcepts, repo);
+            codeList = githubCodeDataGateway.getSourceCode(repo);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return codeReview;
+        return parsedCode;
     }
 }

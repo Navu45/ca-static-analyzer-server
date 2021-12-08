@@ -1,4 +1,4 @@
-package com.example.castaticanalyzer.code.entity;
+package com.example.castaticanalyzer.analyzer.parsing;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(schema = "public", name = "dependency_data")
-public class DependencyData {
+public class DependencyData implements Comparable<String>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,11 +25,26 @@ public class DependencyData {
         this.data = data;
     }
 
+    public DependencyData() {
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
+
     @Override
     public String toString() {
-        return "DependencyData{" +
-                "type=" + type +
+        return "type=" + type +
                 ", data='" + data + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(String data) {
+        if (this.data.contains(data) || data.contains(this.data)){
+            return 1;
+        }
+        return 0;
     }
 }

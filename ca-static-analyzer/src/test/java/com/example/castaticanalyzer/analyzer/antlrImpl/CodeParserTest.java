@@ -1,8 +1,9 @@
 package com.example.castaticanalyzer.analyzer.antlrImpl;
 
+import com.example.castaticanalyzer.analyzer.parsing.CodeParser;
 import org.junit.jupiter.api.Test;
 
-class AntlrAnalyzerTest {
+class CodeParserTest {
 
     String codeData = "package com.example.castaticanalyzer.code.DTO;\n" +
             "\n" +
@@ -24,7 +25,7 @@ class AntlrAnalyzerTest {
             "    }\n" +
             "}\n";
 
-    AntlrAnalyzer analyzer = new AntlrAnalyzer();
+    CodeParser analyzer = new CodeParser();
 
     @Test
     void parseCode() {
