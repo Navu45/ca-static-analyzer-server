@@ -25,6 +25,14 @@ public class DependencyData implements Comparable<String>{
         this.data = data;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DependencyData that = (DependencyData) o;
+        return data.equals(that.data);
+    }
+
     public DependencyData() {
     }
 
@@ -36,13 +44,12 @@ public class DependencyData implements Comparable<String>{
     @Override
     public String toString() {
         return "type=" + type +
-                ", data='" + data + '\'' +
-                '}';
+                ", line='" + data + '\'';
     }
 
     @Override
     public int compareTo(String data) {
-        if (this.data.contains(data) || data.contains(this.data)){
+        if (this.data.contains(data)){
             return 1;
         }
         return 0;

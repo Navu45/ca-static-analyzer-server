@@ -13,31 +13,38 @@ import java.util.List;
 
 @Service
 public class Analyzer {
-
+    @Autowired
     CodeParser parser;
-
+    @Autowired
     ProblemBuilder builder;
 
     public CodeReview checkDependencyRule(List<Code> codeList) {
         builder.reset();
         List<String> problems = new ArrayList<>();
         List<ParsedCode> parsedCodeList = parser.getCodeParsedCode(codeList);
+        List<DependencyData> dependencies = new ArrayList<>();
+
         for (int i = 0; i < parsedCodeList.size(); i++) {
+            ParsedCode code1 = parsedCodeList.get(i);
             for (int j = i + 1; j < parsedCodeList.size(); j++) {
-                ParsedCode code1 = parsedCodeList.get(i);
-                System.err.println(code1.toString() + i);
                 ParsedCode code2 = parsedCodeList.get(j);
-                System.err.println(code2.toString() + j);
-                if (code1.haveAsDependency(code2) == 1 && fromLowerLevel(code1, code2))
+                if (code1.haveAsDependency(code2) && fromLowerLevel(code1, code2)
+                        || code2.haveAsDependency(code1) && fromLowerLevel(code2, code1))
                 {
-                    DependencyData dependencyData = code1.getErrorDependency(code2);
-                    builder.setMessage()
-                            .setDependencyError(code1.getLayer(),code2.getLayer())
-                            .setErrorSource(code1, dependencyData);
-                    problems.add(builder.getResult());
+                    List<DependencyData> dependencyList = code1.getErrorDependency(code2);
+                    for (DependencyData dependency :
+                            dependencyList) {
+                        if (!dependencies.contains(dependency)) {
+                            builder.setMessage()
+                                    .setDependencyError(code1.getLayer(), code2.getLayer())
+                                    .setErrorSource(code1, dependency);
+                            dependencies.add(dependency);
+                        }
+                    }
                 }
             }
         }
+        problems.add(builder.getResult());
         return new CodeReview(problems);
     }
 

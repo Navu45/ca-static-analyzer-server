@@ -21,7 +21,7 @@ public class Code {
     public Code(String path, String data) {
         this.path = path;
         this.data = data;
-        name = path.split("/")[path.split("/").length - 1];
+        name = path.split("/")[path.split("/").length - 1].replace(".java", "");
     }
 
     public Code() {

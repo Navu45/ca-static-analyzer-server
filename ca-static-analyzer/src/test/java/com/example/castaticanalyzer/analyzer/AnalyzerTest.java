@@ -22,13 +22,12 @@ class AnalyzerTest {
 
     String code1 = "package com.example.castaticanalyzer.analyzer.parsing;\n" +
             "\n" +
-            "import com.example.castaticanalyzer.analyzer.Analyzer;\n" +
             "import com.example.castaticanalyzer.analyzer.antlrImpl.CleanArchitectureVisitor;\n" +
             "import com.example.castaticanalyzer.analyzer.antlrGenerated.JavaLexer;\n" +
             "import com.example.castaticanalyzer.analyzer.antlrGenerated.JavaParser;\n" +
             "import com.example.castaticanalyzer.analyzer.controllers.AnalyzerController;\n" +
+            "import com.example.castaticanalyzer.analyzer.services.CodeAnalysisService;\n" +
             "import com.example.castaticanalyzer.code.DTO.Code;\n" +
-            "import com.example.castaticanalyzer.code.DTO.CodeModel;\n" +
             "import org.antlr.v4.runtime.CharStream;\n" +
             "import org.antlr.v4.runtime.CharStreams;\n" +
             "import org.antlr.v4.runtime.CommonTokenStream;\n" +
@@ -42,13 +41,14 @@ class AnalyzerTest {
             "@Component\n" +
             "public class CodeParser {\n" +
             "    AnalyzerController controller;\n" +
+            "    CodeAnalysisService service;\n" +
             "\n" +
-            "    public List<ParsedCode> getCodeParsedCode(CodeModel codeModel) {\n" +
+            "    public List<ParsedCode> getCodeParsedCode(List<Code> codeList) {\n" +
             "        List<ParsedCode> parsedCodeList = new ArrayList<>();\n" +
             "        for (Code code :\n" +
-            "                codeModel.getSourceCode()) {\n" +
+            "                codeList) {\n" +
             "            ParsedCode review = parseCode(code.getData());\n" +
-            "            review.setCode(code);\n" +
+            "            review.setSourceCodeName(code.getName());\n" +
             "            parsedCodeList.add(review);\n" +
             "        }\n" +
             "        return parsedCodeList;\n" +
@@ -76,6 +76,37 @@ class AnalyzerTest {
             "\n" +
             "/** @InterfaceAdapter */\n" +
             "public class AnalyzerController {\n" +
+            "}\n";
+
+    String code3 = "package com.example.castaticanalyzer.analyzer.services;\n" +
+            "\n" +
+            "import com.example.castaticanalyzer.code.DTO.Code;\n" +
+            "import com.example.castaticanalyzer.analyzer.parsing.ParsedCode;\n" +
+            "import com.example.castaticanalyzer.code.DTO.GithubRepo;\n" +
+            "import com.example.castaticanalyzer.code.gateways.GitHubCodeDataGateway;\n" +
+            "import org.springframework.stereotype.Service;\n" +
+            "\n" +
+            "import java.io.IOException;\n" +
+            "import java.util.List;\n" +
+            "\n" +
+            "/** @UseCase */\n" +
+            "\n" +
+            "@Service\n" +
+            "public class CodeAnalysisService {\n" +
+            "\n" +
+            "    GitHubCodeDataGateway githubCodeDataGateway;\n" +
+            "\n" +
+            "\n" +
+            "    public ParsedCode reviewGitHubSourceCode(GithubRepo repo) {\n" +
+            "        ParsedCode parsedCode = new ParsedCode();\n" +
+            "        List<Code> codeList;\n" +
+            "        try {\n" +
+            "            codeList = githubCodeDataGateway.getSourceCode(repo);\n" +
+            "        } catch (IOException e) {\n" +
+            "            e.printStackTrace();\n" +
+            "        }\n" +
+            "        return parsedCode;\n" +
+            "    }\n" +
             "}\n";
     @TestConfiguration
     static class TestConfig {
@@ -105,6 +136,7 @@ class AnalyzerTest {
         List<Code> list = new ArrayList<>();
         list.add(new Code("com/example/castaticanalyzer/analyzer/parsing/CodeParser.java", code1));
         list.add(new Code("com/example/castaticanalyzer/analyzer/controllers/AnalyzerController.java", code2));
+        list.add(new Code("com/example/castaticanalyzer/analyzer/services/CodeAnalysisService.java", code3));
         System.out.println(analyzer.checkDependencyRule(list));
 
     }

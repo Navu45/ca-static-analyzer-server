@@ -88,7 +88,9 @@ public class CleanArchitectureVisitor extends JavaParserBaseVisitor<ParsedCode> 
      */
     @Override
     public ParsedCode visitFieldDeclaration(JavaParser.FieldDeclarationContext ctx) {
-        review.addDependency(DependencyType.FIELD,ctx.typeType().getText());
+        review.addDependency(DependencyType.CLASS_FIELD,
+                ctx.typeType().getText() + " " + ctx.variableDeclarators().getText() + ";");
+
         return review;
     }
 
@@ -102,7 +104,7 @@ public class CleanArchitectureVisitor extends JavaParserBaseVisitor<ParsedCode> 
      */
     @Override
     public ParsedCode visitTypeType(JavaParser.TypeTypeContext ctx) {
-        review.addDependency(DependencyType.TYPE,ctx.classOrInterfaceType().getText());
+        review.addDependency(DependencyType.VARIABLE_TYPE,ctx.classOrInterfaceType().getText());
         return super.visitTypeType(ctx);
     }
 

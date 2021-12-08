@@ -49,36 +49,37 @@ public class ParsedCode {
         return getCleanArchitectureLayer().getLevel();
     }
 
-    private int compareDependenciesWith(String sourceCodeName) {
-        int hasSuchDependency = 0;
+    private boolean compareDependenciesWith(String sourceCodeName) {
+        boolean hasSuchDependency = false;
         for (DependencyData dependency :
-                dependencies) {
+                this.dependencies) {
             if (dependency.compareTo(sourceCodeName) != 0) {
-                hasSuchDependency = dependency.compareTo(sourceCodeName);
-                break;
+                hasSuchDependency = true;
             }
         }
         return hasSuchDependency;
     }
 
-    public DependencyData getErrorDependency(ParsedCode code) {
+    public List<DependencyData> getErrorDependency(ParsedCode code) {
+        List<DependencyData> list = new ArrayList<>();
         for (DependencyData dependency :
-                dependencies) {
+                this.dependencies) {
             if (dependency.compareTo(code.getSourceCodeName()) != 0) {
-                return dependency;
+                list.add(dependency);
             }
         }
-        return null;
+        return list;
     }
 
-    public int haveAsDependency(ParsedCode code) {
+    public boolean haveAsDependency(ParsedCode code) {
         return this.compareDependenciesWith(code.getSourceCodeName());
     }
 
     @Override
     public String toString() {
-        return "CodeReview{" +
-                "dependencies=" + dependencies +
+        return "Parsed{" +
+                "sourceCodeName" + sourceCodeName +
+                ", dependencies=" + dependencies +
                 ", packageName='" + packageName + '\'' +
                 ", cleanArchitectureLayer='" + cleanArchitectureLayer + '\'' +
                 '}';

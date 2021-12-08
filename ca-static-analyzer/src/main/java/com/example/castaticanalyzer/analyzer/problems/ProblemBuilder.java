@@ -21,7 +21,7 @@ public class ProblemBuilder {
 
     public ProblemBuilder setMessage() {
         if (!messageSet) {
-            result.append("Checking dependency rule failed:").append("\n\t");
+            result.append("Checking Dependency rule failed:").append("\n\t");
             messageSet = true;
         }
         return this;
@@ -34,8 +34,8 @@ public class ProblemBuilder {
     }
 
     public ProblemBuilder setErrorSource(ParsedCode code1, DependencyData dependency) {
-        result.append("Error found at ").append(code1.getPackageName())
-                .append(" with line ").append(dependency.toString()).append("\n\t");
+        result.append("Error found at ").append(code1.getPackageName() + "." + code1.getSourceCodeName())
+                .append(" with ").append(dependency.toString()).append("\n\t");
         return this;
     }
 
