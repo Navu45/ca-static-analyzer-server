@@ -11,6 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(schema = "public", name = "parsed_code")
 public class ParsedCode {
     @Id
     @GeneratedValue

@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 @Entity
+@Table(schema = "public", name = "repos")
 @Getter
 @Setter
 public class GithubRepo {
