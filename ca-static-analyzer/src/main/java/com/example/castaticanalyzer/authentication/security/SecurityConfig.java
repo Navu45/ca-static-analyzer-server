@@ -1,6 +1,6 @@
-package com.example.castaticanalyzer.user.security;
+package com.example.castaticanalyzer.authentication.security;
 
-import com.example.castaticanalyzer.user.authentication.UserDetailsService;
+import com.example.castaticanalyzer.authentication.UserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -33,7 +33,7 @@ public class SecurityConfig extends
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/registration", "/activate/*", "/home").permitAll()
+                .antMatchers("/registration", "/activate/*", "/home", "profile").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new CustomFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)

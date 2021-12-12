@@ -1,10 +1,8 @@
 package com.example.castaticanalyzer.analyzer.parsing;
 
-import com.example.castaticanalyzer.analyzer.antlrImpl.CleanArchitectureVisitor;
 import com.example.castaticanalyzer.analyzer.antlrGenerated.JavaLexer;
 import com.example.castaticanalyzer.analyzer.antlrGenerated.JavaParser;
-import com.example.castaticanalyzer.analyzer.controllers.AnalyzerController;
-import com.example.castaticanalyzer.analyzer.services.CodeAnalysisService;
+import com.example.castaticanalyzer.analyzer.antlrImpl.CleanArchitectureVisitor;
 import com.example.castaticanalyzer.code.DTO.Code;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -18,8 +16,6 @@ import java.util.List;
 /** @DomainEntity */
 @Component
 public class CodeParser {
-    AnalyzerController controller;
-    CodeAnalysisService service;
 
     public List<ParsedCode> getCodeParsedCode(List<Code> codeList) {
         List<ParsedCode> parsedCodeList = new ArrayList<>();

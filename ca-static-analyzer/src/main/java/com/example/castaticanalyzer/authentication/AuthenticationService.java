@@ -1,11 +1,12 @@
-package com.example.castaticanalyzer.user.authentication;
+package com.example.castaticanalyzer.authentication;
 
-import com.example.castaticanalyzer.user.mail.EmailSender;
-import com.example.castaticanalyzer.user.userdata.Role;
-import com.example.castaticanalyzer.user.userdata.User;
-import com.example.castaticanalyzer.user.userdata.UserDataGateway;
+import com.example.castaticanalyzer.mail.EmailSender;
+import com.example.castaticanalyzer.user.Role;
+import com.example.castaticanalyzer.user.User;
+import com.example.castaticanalyzer.user.UserDataGateway;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class AuthenticationService {
     private UserDataGateway userRepository;
     private PasswordEncoder encoder;

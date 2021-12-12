@@ -1,4 +1,4 @@
-package com.example.castaticanalyzer.user.userdata;
+package com.example.castaticanalyzer.user;
 
 import org.springframework.security.core.GrantedAuthority;
 

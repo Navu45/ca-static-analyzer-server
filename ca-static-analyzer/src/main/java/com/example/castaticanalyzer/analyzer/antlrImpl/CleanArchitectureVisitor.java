@@ -3,14 +3,14 @@ package com.example.castaticanalyzer.analyzer.antlrImpl;
 import com.example.castaticanalyzer.analyzer.antlrGenerated.JavaParser;
 import com.example.castaticanalyzer.analyzer.antlrGenerated.JavaParserBaseVisitor;
 import com.example.castaticanalyzer.analyzer.parsing.CleanArchitectureLayer;
-import com.example.castaticanalyzer.analyzer.parsing.ParsedCode;
 import com.example.castaticanalyzer.analyzer.parsing.DependencyType;
+import com.example.castaticanalyzer.analyzer.parsing.ParsedCode;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CleanArchitectureVisitor extends JavaParserBaseVisitor<ParsedCode> {
 
-    private ParsedCode review = new ParsedCode();
+    private ParsedCode review;
     /**
      * {@inheritDoc}
      *
@@ -22,9 +22,9 @@ public class CleanArchitectureVisitor extends JavaParserBaseVisitor<ParsedCode> 
 
     @Override
     public ParsedCode visitUnitDeclaration(JavaParser.UnitDeclarationContext ctx) {
-
-        CleanArchitectureLayer layer;
-        switch (ctx.CLEAN_ARCHITECTURE_UNIT().getText().split(" ")[1]) {
+        String declaration = ctx.CLEAN_ARCHITECTURE_UNIT().getText().split(" ")[1];
+        CleanArchitectureLayer layer = null;
+        switch (declaration) {
             case "@DomainEntity": {
                 layer = CleanArchitectureLayer.DOMAIN;
                 break;
@@ -40,10 +40,6 @@ public class CleanArchitectureVisitor extends JavaParserBaseVisitor<ParsedCode> 
             case "@Framework": {
                 layer = CleanArchitectureLayer.FRAMEWORK;
                 break;
-            }
-            default:
-            {
-                layer = CleanArchitectureLayer.NOT_DEFINED;
             }
         }
         review.setCleanArchitectureLayer(layer);
@@ -104,7 +100,9 @@ public class CleanArchitectureVisitor extends JavaParserBaseVisitor<ParsedCode> 
      */
     @Override
     public ParsedCode visitTypeType(JavaParser.TypeTypeContext ctx) {
-        review.addDependency(DependencyType.VARIABLE_TYPE,ctx.classOrInterfaceType().getText());
+        JavaParser.ClassOrInterfaceTypeContext context = ctx.classOrInterfaceType();
+        if (context != null)
+            review.addDependency(DependencyType.VARIABLE_TYPE, context.getText());
         return super.visitTypeType(ctx);
     }
 
@@ -118,7 +116,11 @@ public class CleanArchitectureVisitor extends JavaParserBaseVisitor<ParsedCode> 
      */
     @Override
     public ParsedCode visitCompilationUnit(JavaParser.CompilationUnitContext ctx) {
+        review = new ParsedCode();
         visitChildren(ctx);
+        if (review.getLayer() == null) {
+            review.setCleanArchitectureLayer(CleanArchitectureLayer.NOT_DEFINED);
+        }
         return review;
     }
 

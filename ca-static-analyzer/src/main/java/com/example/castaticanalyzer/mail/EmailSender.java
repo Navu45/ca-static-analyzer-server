@@ -1,4 +1,4 @@
-package com.example.castaticanalyzer.user.mail;
+package com.example.castaticanalyzer.mail;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;

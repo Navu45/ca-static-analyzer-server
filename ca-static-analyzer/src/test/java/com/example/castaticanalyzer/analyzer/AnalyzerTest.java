@@ -8,9 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -25,8 +23,8 @@ class AnalyzerTest {
             "import com.example.castaticanalyzer.analyzer.antlrImpl.CleanArchitectureVisitor;\n" +
             "import com.example.castaticanalyzer.analyzer.antlrGenerated.JavaLexer;\n" +
             "import com.example.castaticanalyzer.analyzer.antlrGenerated.JavaParser;\n" +
-            "import com.example.castaticanalyzer.analyzer.controllers.AnalyzerController;\n" +
-            "import com.example.castaticanalyzer.analyzer.services.CodeAnalysisService;\n" +
+            "import com.example.castaticanalyzer.analyzer.AnalyzerController;\n" +
+            "import com.example.castaticanalyzer.analyzer.CodeAnalysisService;\n" +
             "import com.example.castaticanalyzer.code.DTO.Code;\n" +
             "import org.antlr.v4.runtime.CharStream;\n" +
             "import org.antlr.v4.runtime.CharStreams;\n" +
@@ -113,7 +111,7 @@ class AnalyzerTest {
 
         @Bean
         public Analyzer analyzer() {
-            return new Analyzer();
+            return new Analyzer(parser(), builder());
         }
 
         @Bean
@@ -137,7 +135,7 @@ class AnalyzerTest {
         list.add(new Code("com/example/castaticanalyzer/analyzer/parsing/CodeParser.java", code1));
         list.add(new Code("com/example/castaticanalyzer/analyzer/controllers/AnalyzerController.java", code2));
         list.add(new Code("com/example/castaticanalyzer/analyzer/services/CodeAnalysisService.java", code3));
-        System.out.println(analyzer.checkDependencyRule(list));
+        System.out.println(analyzer.analyze(list));
 
     }
 }

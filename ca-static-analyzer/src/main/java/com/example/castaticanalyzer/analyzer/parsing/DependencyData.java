@@ -3,21 +3,11 @@ package com.example.castaticanalyzer.analyzer.parsing;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-
-@Entity
 @Getter
 @Setter
-@Table(schema = "public", name = "dependency_data")
 public class DependencyData implements Comparable<String>{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @Column(name = "type")
     private DependencyType type;
-
-    @Column(name = "data")
     private String data;
 
     public DependencyData(DependencyType type, String data) {
@@ -31,9 +21,6 @@ public class DependencyData implements Comparable<String>{
         if (o == null || getClass() != o.getClass()) return false;
         DependencyData that = (DependencyData) o;
         return data.equals(that.data);
-    }
-
-    public DependencyData() {
     }
 
     @Override

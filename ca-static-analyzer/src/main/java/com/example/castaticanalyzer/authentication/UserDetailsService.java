@@ -1,6 +1,6 @@
-package com.example.castaticanalyzer.user.authentication;
+package com.example.castaticanalyzer.authentication;
 
-import com.example.castaticanalyzer.user.userdata.UserDataGateway;
+import com.example.castaticanalyzer.user.UserDataGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

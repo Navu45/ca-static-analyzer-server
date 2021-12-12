@@ -1,4 +1,4 @@
-package com.example.castaticanalyzer.user.security;
+package com.example.castaticanalyzer.authentication.security;
 
 
 import org.springframework.http.HttpMethod;
@@ -42,7 +42,7 @@ public class CustomFilter extends UsernamePasswordAuthenticationFilter {
                 loginCookie.setMaxAge(60*60*24*365);
                 response.addCookie(passwordCookie);
                 response.addCookie(loginCookie);
-                super.setDefaultTargetUrl("/home");
+                super.setDefaultTargetUrl("/profile");
                 super.onAuthenticationSuccess(request, response, authentication);
             }
         });

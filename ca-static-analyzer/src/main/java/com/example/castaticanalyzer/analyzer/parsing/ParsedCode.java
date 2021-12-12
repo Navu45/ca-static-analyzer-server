@@ -1,6 +1,5 @@
 package com.example.castaticanalyzer.analyzer.parsing;
 
-import com.example.castaticanalyzer.code.DTO.Code;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +9,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@Entity
-@Table(schema = "public", name = "parsed_code")
 public class ParsedCode {
     @Id
     @GeneratedValue
@@ -47,7 +44,7 @@ public class ParsedCode {
     }
 
     public int getLayerLevel() {
-        return getCleanArchitectureLayer().getLevel();
+        return getLayer().getLevel();
     }
 
     private boolean compareDependenciesWith(String sourceCodeName) {

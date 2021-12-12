@@ -1,4 +1,4 @@
-package com.example.castaticanalyzer.user.userdata;
+package com.example.castaticanalyzer.user;
 
 import lombok.Getter;
 import lombok.Setter;

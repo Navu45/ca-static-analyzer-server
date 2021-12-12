@@ -1,6 +1,6 @@
 <#import "layout.ftl" as page/>
-<#import 'spring.ftl' as spring/>
-<@page.layout false "Sign up | Clean Architecture Analyzer">
+<#import 'spring.ftl' as spring>
+<@page.layout "Sign up | Clean Architecture Analyzer">
     <form method="post" action="/registration">
         <h2>Create your account</h2>
 
@@ -8,7 +8,7 @@
             <label>
                 <input type="text"
                        class="form-control ${(usernameError?? || userExistsError??)?string('is-invalid', '')}"
-                       value="<#if userForm?? && userForm.getUsername()??>${userForm.getUsername() + userExistsError + passwordError + confirmationError}</#if>"
+                       value="<#if userForm?? && userForm.getUsername()??>${userForm.getUsername()}</#if>"
                        placeholder="Email"
                        name="username"/>
             </label>
@@ -27,7 +27,7 @@
         <div class="form-group">
             <label>
                 <input type="password"
-                       class="form-control ${(passwordError??)?string('is-invalid', '')}"
+                       class="form-control ${(passwordError??)?string('is-invalid', ' ')}"
                        name="password"  placeholder="Password"/>
             </label>
             <#if passwordError??>
@@ -46,6 +46,11 @@
             <#if confirmationError??>
                 <div class="invalid-feedback">
                     ${confirmationError}
+                </div>
+            </#if>
+            <#if confirmPasswordError??>
+                <div class="invalid-feedback">
+                    ${confirmPasswordError}
                 </div>
             </#if>
         </div>

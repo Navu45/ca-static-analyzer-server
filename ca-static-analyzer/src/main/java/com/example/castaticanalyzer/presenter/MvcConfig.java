@@ -1,4 +1,4 @@
-package com.example.castaticanalyzer.user.presenter;
+package com.example.castaticanalyzer.presenter;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;

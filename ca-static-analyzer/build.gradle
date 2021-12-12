@@ -1,19 +1,13 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.0'
+    id 'org.springframework.boot' version '2.4.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id 'antlr'
 }
 
 group = 'com.example.castaticanalyzer'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = '11'
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
 
 repositories {
     mavenCentral()
@@ -23,6 +17,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter:2.5.5'
     implementation 'org.projectlombok:lombok:1.18.20'
     implementation 'org.testng:testng:7.1.0'
+    implementation 'junit:junit:4.13.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-freemarker'
@@ -33,11 +28,9 @@ dependencies {
     testImplementation "org.springframework.security:spring-security-test"
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
-    implementation 'org.springframework.boot:spring-boot-starter-validation:2.4.5'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'commons-beanutils:commons-beanutils:1.9.4'
     antlr  'org.antlr:antlr4:4.7.1'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
-    implementation  'commons-beanutils:commons-beanutils:1.9.4'
 }
 
 test {

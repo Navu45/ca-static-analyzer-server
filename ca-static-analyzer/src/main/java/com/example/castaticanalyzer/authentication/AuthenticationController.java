@@ -1,6 +1,6 @@
-package com.example.castaticanalyzer.user.authentication;
+package com.example.castaticanalyzer.authentication;
 
-import com.example.castaticanalyzer.user.userdata.User;
+import com.example.castaticanalyzer.user.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +24,8 @@ public class AuthenticationController {
     }
 
     @GetMapping("/home")
-    public String home() {
+    public String home(Model model) {
+        model.addAttribute("isAnalyzing", false);
         return "index";
     }
 
@@ -48,7 +49,7 @@ public class AuthenticationController {
         {
             if (inputInvalid)
             {
-                validationUtil.getErrors(bindingResult, model);
+                model.mergeAttributes(validationUtil.getErrors(bindingResult));
             }
 
             if (userExists)

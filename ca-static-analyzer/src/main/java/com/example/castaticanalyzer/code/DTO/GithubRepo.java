@@ -3,26 +3,15 @@ package com.example.castaticanalyzer.code.DTO;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-@Entity
-@Table(schema = "public", name = "repos")
 @Getter
 @Setter
 public class GithubRepo {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "owner")
     private String owner;
 
-    @Column(name = "repo")
     private String repo;
 
-    @Column(name = "sourceDir")
     private String sourceDir;
 
     public GithubRepo() {
@@ -40,10 +29,17 @@ public class GithubRepo {
     }
 
     public String getSourceDirURL() {
-        return "https://api.github.com/repos/" + '/' + owner + '/' + repo + '/' + sourceDir;
+        return "https://api.github.com/repos/" + owner + '/' + repo + "/contents/" + sourceDir;
     }
 
-    public URL getFileRawContentURL(String githubFilePath) throws MalformedURLException {
-        return new URL("https://raw.githubusercontent.com/" + owner + '/' + repo + "/contents" + githubFilePath);
+    public String getFileRawContentURL(String githubFilePath) {
+        return "https://raw.githubusercontent.com/" + owner + '/' + repo + "/master/" + githubFilePath;
+    }
+
+    @Override
+    public String toString() {
+        return "GithubRepo{" + getFileRawContentURL("---") +
+                ", " + getSourceDirURL() +
+                "}";
     }
 }
