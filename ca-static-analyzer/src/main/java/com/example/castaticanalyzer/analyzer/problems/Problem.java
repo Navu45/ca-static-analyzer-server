@@ -2,7 +2,7 @@ package com.example.castaticanalyzer.analyzer.problems;
 
 import lombok.Getter;
 import lombok.Setter;
-
+/** @DomainEntity */
 @Getter
 @Setter
 public class Problem {

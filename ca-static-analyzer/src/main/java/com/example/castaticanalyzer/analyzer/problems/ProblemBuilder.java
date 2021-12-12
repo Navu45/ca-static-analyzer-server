@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/** @DomainEntity */
 @Service
 public class ProblemBuilder {
 
@@ -20,19 +20,11 @@ public class ProblemBuilder {
         result = new StringBuilder();
     }
 
-    public ProblemBuilder setMessage() {
-        if (!messageSet) {
-            problems.add(new Problem("Checking Dependency rule failed:", ProblemType.ERROR));
-            messageSet = true;
-        }
-        return this;
-    }
-
     public ProblemBuilder setDependencyError(CleanArchitectureLayer layer1, CleanArchitectureLayer layer2) {
         result.append(layer1.toString())
                 .append(" layer depends on ")
                 .append(layer2.toString())
-                .append(" layer");
+                .append(" layer. ");
         return this;
     }
 
@@ -62,6 +54,8 @@ public class ProblemBuilder {
     public List<Problem> getResult() {
         reset();
         messageSet = false;
-        return problems;
+        List<Problem> problemList = new ArrayList<>(problems);
+        problems.clear();
+        return problemList;
     }
 }

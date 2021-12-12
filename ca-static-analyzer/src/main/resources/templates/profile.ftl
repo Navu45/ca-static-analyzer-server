@@ -23,22 +23,17 @@
         <div class="form-group">
             <label>
                 <input class="form-control"  name="sourceDir" type="text"
-                       placeholder="Source files' directory (preferably .../main)" required/>
+                       placeholder="Source files' directory (preferably .../main)"/>
             </label>
         </div>
 
         <button class="btn btn-primary mb-3" type="submit">Analyze</button>
 
         <div class="mb-3 mt-3">
-            <h6>Last review</h6>
             <#if review??>
+                <h3>Last review - ${review.getDate()}</h3>
                 <#assign problems = review.getProblems()>
                 <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="row">${review.getDate()}</th>
-                    </tr>
-                    </thead>
                     <tbody>
                     <#list problems as problem>
                         <tr class="${(problem.getType().name() == "ERROR")?then('table-danger',

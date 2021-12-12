@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+/** @UseCase */
+
 @Service
 public class ValidationUtil {
 

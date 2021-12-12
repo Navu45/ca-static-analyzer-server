@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/** @DomainEntity */
 @Getter
 @Setter
 public class ParsedCode {
@@ -69,7 +69,7 @@ public class ParsedCode {
         return list;
     }
 
-    public boolean haveAsDependency(ParsedCode code) {
+    public boolean hasAsDependency(ParsedCode code) {
         return this.compareDependenciesWith(code.getSourceCodeName());
     }
 

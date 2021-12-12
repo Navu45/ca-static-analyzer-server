@@ -7,6 +7,8 @@ import com.example.castaticanalyzer.analyzer.parsing.DependencyType;
 import com.example.castaticanalyzer.analyzer.parsing.ParsedCode;
 import org.springframework.stereotype.Component;
 
+/** @DomainEntity */
+
 @Component
 public class CleanArchitectureVisitor extends JavaParserBaseVisitor<ParsedCode> {
 

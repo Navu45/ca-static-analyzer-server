@@ -5,8 +5,7 @@ import com.example.castaticanalyzer.analyzer.problems.Problem;
 import com.example.castaticanalyzer.analyzer.problems.ProblemType;
 import com.example.castaticanalyzer.code.DTO.Code;
 import com.example.castaticanalyzer.code.DTO.GithubRepo;
-import com.example.castaticanalyzer.code.gateways.GitHubCodeDataGateway;
-import com.example.castaticanalyzer.user.User;
+import com.example.castaticanalyzer.code.gateways.CodeDataGateway;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,17 +18,17 @@ import java.util.List;
 @Service
 public class CodeAnalysisService {
 
-    GitHubCodeDataGateway githubCodeDataGateway;
+    CodeDataGateway githubCodeDataGateway;
 
     Analyzer analyzer;
 
-    public CodeAnalysisService(GitHubCodeDataGateway githubCodeDataGateway,
+    public CodeAnalysisService(CodeDataGateway githubCodeDataGateway,
                                Analyzer analyzer) {
         this.githubCodeDataGateway = githubCodeDataGateway;
         this.analyzer = analyzer;
     }
 
-    public CodeReview reviewGitHubSourceCode(GithubRepo repo, User user) {
+    public CodeReview reviewGitHubSourceCode(GithubRepo repo) {
         List<Code> codeList = new ArrayList<>();
         try {
             codeList = githubCodeDataGateway.getSourceCode(repo);

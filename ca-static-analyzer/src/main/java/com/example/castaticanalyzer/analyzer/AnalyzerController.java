@@ -25,9 +25,8 @@ public class AnalyzerController {
     }
 
     @GetMapping("/analyze")
-    public String analyzeGitHubCode(@AuthenticationPrincipal User user,
-                                    GithubRepo repo, Model model) {
-        CodeReview review = service.reviewGitHubSourceCode(repo, user);
+    public String analyzeGitHubCode(GithubRepo repo, Model model) {
+        CodeReview review = service.reviewGitHubSourceCode(repo);
         model.addAttribute("review", review);
         model.addAttribute("isAnalyzing", true);
         return "profile";

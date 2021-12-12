@@ -1,8 +1,10 @@
-package com.example.castaticanalyzer.presenter;
+package com.example.castaticanalyzer.authentication.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+/** @InterfaceAdapter */
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {

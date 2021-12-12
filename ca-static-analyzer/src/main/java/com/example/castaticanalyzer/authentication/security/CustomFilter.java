@@ -17,17 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-/**
- * Класс, отвечающий за аутентификацию пользователя или создание cookie файлов
- *
- */
+/** @InterfaceAdapter */
+
 public class CustomFilter extends UsernamePasswordAuthenticationFilter {
 
-    /**
-     * Создание конфигурации фильтра авторизаци
-     * @param url маппинг, при котором срабатывает фильтр
-     * @param authenticationManager
-     */
     public CustomFilter(String url, AuthenticationManager authenticationManager) {
 
         setAuthenticationManager(authenticationManager);

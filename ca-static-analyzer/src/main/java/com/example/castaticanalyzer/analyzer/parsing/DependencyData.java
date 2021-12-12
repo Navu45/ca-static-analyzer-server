@@ -2,7 +2,7 @@ package com.example.castaticanalyzer.analyzer.parsing;
 
 import lombok.Getter;
 import lombok.Setter;
-
+/** @DomainEntity */
 @Getter
 @Setter
 public class DependencyData implements Comparable<String>{

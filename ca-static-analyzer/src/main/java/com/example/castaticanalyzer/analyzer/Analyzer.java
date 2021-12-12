@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/** @DomainEntity */
 @Service
 public class Analyzer {
 
@@ -38,7 +38,8 @@ public class Analyzer {
             }
             setWarnings(code1);
         }
-        return builder.getResult();
+        List<Problem> problems = builder.getResult();
+        return problems;
     }
 
     private void setWarnings(ParsedCode code) {
@@ -53,15 +54,14 @@ public class Analyzer {
     public List<DependencyData> checkDependencyRule(ParsedCode code1, ParsedCode code2,
                                                     List<DependencyData> currentDependencies) {
         List<DependencyData> dependencies = new ArrayList<>();
-        if (code1.haveAsDependency(code2) && fromLowerLevel(code1, code2)
-                || code2.haveAsDependency(code1) && fromLowerLevel(code2, code1))
+        if (code1.hasAsDependency(code2) && fromLowerLevel(code1, code2)
+                || code2.hasAsDependency(code1) && fromLowerLevel(code2, code1))
         {
             List<DependencyData> dependencyList = code1.getErrorDependency(code2);
             for (DependencyData dependency :
                     dependencyList) {
                 if (!currentDependencies.contains(dependency)) {
-                    builder.setMessage()
-                            .setDependencyError(code1.getLayer(), code2.getLayer())
+                    builder.setDependencyError(code1.getLayer(), code2.getLayer())
                             .setErrorSource(code1, dependency);
                     dependencies.add(dependency);
                 }

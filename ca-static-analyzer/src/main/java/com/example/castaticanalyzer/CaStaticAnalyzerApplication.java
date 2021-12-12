@@ -3,6 +3,8 @@ package com.example.castaticanalyzer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/** @UseCase */
+
 @SpringBootApplication
 public class CaStaticAnalyzerApplication {
 

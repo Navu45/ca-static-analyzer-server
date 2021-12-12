@@ -3,6 +3,8 @@ package com.example.castaticanalyzer.code.DTO;
 import lombok.Getter;
 import lombok.Setter;
 
+/** @DomainEntity */
+
 @Getter
 @Setter
 public class GithubRepo {

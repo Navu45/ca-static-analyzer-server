@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+
+/** @UseCase */
+
 @Service
 public class EmailSender {
     private final JavaMailSender mailSender;

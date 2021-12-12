@@ -17,8 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/** @InterfaceAdapter */
+
 @Repository
-@Slf4j
 public class GitHubCodeDataGateway implements CodeDataGateway{
 
     private String sendHTTPSRequest(HttpsURLConnection connection) throws IOException {
@@ -53,7 +54,13 @@ public class GitHubCodeDataGateway implements CodeDataGateway{
         try {
             url = new URL(repo.getSourceDirURL());
             String json = sendHTTPSRequest(url);
-            result = new ObjectMapper().readTree(json).get(0).get("git_url").asText() + "?recursive=true";
+            for (JsonNode node:
+                    new ObjectMapper().readTree(json)) {
+                if (Objects.equals(node.get("name").asText(), "java")){
+                    result = node.get("git_url").asText() + "?recursive=true";
+                    break;
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
