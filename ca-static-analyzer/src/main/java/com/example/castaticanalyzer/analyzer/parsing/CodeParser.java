@@ -3,7 +3,7 @@ package com.example.castaticanalyzer.analyzer.parsing;
 import com.example.castaticanalyzer.analyzer.antlrGenerated.JavaLexer;
 import com.example.castaticanalyzer.analyzer.antlrGenerated.JavaParser;
 import com.example.castaticanalyzer.analyzer.antlrImpl.CleanArchitectureVisitor;
-import com.example.castaticanalyzer.code.DTO.Code;
+import com.example.castaticanalyzer.analyzer.code.DTO.Code;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -17,6 +17,8 @@ import java.util.List;
 @Component
 public class CodeParser {
 
+    JavaParser javaParser;
+
     public List<ParsedCode> getCodeParsedCode(List<Code> codeList) {
         List<ParsedCode> parsedCodeList = new ArrayList<>();
         for (Code code :
@@ -28,20 +30,18 @@ public class CodeParser {
         return parsedCodeList;
     }
 
-
     public ParsedCode parseCode(String code)
     {
-        JavaParser javaParser = (JavaParser) initializeParser(code);
+        initializeParser(code);
+
         CleanArchitectureVisitor visitor = new CleanArchitectureVisitor();
-        JavaParser.CompilationUnitContext tree = javaParser.compilationUnit();
-        return visitor.visit(tree);
+        return visitor.visit(javaParser.compilationUnit());
     }
 
-
-    private Parser initializeParser(String code) {
+    private void initializeParser(String code) {
         CharStream inputStream = CharStreams.fromString(code);
         JavaLexer javaLexer = new JavaLexer(inputStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(javaLexer);
-        return new JavaParser(commonTokenStream);
+        javaParser = new JavaParser(commonTokenStream);
     }
 }

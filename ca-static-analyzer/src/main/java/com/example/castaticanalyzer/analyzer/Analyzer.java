@@ -5,7 +5,7 @@ import com.example.castaticanalyzer.analyzer.parsing.DependencyData;
 import com.example.castaticanalyzer.analyzer.parsing.ParsedCode;
 import com.example.castaticanalyzer.analyzer.problems.Problem;
 import com.example.castaticanalyzer.analyzer.problems.ProblemBuilder;
-import com.example.castaticanalyzer.code.DTO.Code;
+import com.example.castaticanalyzer.analyzer.code.DTO.Code;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,8 +38,7 @@ public class Analyzer {
             }
             setWarnings(code1);
         }
-        List<Problem> problems = builder.getResult();
-        return problems;
+        return builder.getResult();
     }
 
     private void setWarnings(ParsedCode code) {

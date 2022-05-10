@@ -1,8 +1,11 @@
+// Generated from JavaParser.g4 by ANTLR 4.10.1
 package com.example.castaticanalyzer.analyzer.antlrGenerated;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
-/** @DomainEntity */
-
+/**
+ * This interface defines a complete listener for a parse tree produced by
+ * {@link JavaParser}.
+ */
 public interface JavaParserListener extends ParseTreeListener {
 	/**
 	 * Enter a parse tree produced by {@link JavaParser#unitDeclaration}.

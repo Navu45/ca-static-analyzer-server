@@ -1,24 +1,27 @@
-package com.example.castaticanalyzer.user;
+package com.example.castaticanalyzer.authentication.user;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
 
 /** @DomainEntity */
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(schema = "public", name = "users")
-@Getter
-@Setter
-public class User implements UserDetails {
+@NoArgsConstructor
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = "username")},
+        name = "users", schema = "public")
+public class User extends RepresentationModel<User> implements UserDetails   {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +31,7 @@ public class User implements UserDetails {
     @Email(message = "Please enter an email.")
     private String username;
     @Column(length = 200)
+    @NotEmpty
     @Size(min = 8, message = "Password must be at least 8")
     private String password;
     @Transient

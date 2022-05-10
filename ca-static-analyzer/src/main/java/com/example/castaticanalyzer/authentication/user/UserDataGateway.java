@@ -1,4 +1,4 @@
-package com.example.castaticanalyzer.user;
+package com.example.castaticanalyzer.authentication.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

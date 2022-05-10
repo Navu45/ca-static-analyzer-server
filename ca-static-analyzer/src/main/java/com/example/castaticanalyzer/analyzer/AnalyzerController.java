@@ -1,34 +1,30 @@
 package com.example.castaticanalyzer.analyzer;
 
 import com.example.castaticanalyzer.analyzer.codereview.CodeReview;
-import com.example.castaticanalyzer.code.DTO.GithubRepo;
-import com.example.castaticanalyzer.user.User;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import com.example.castaticanalyzer.analyzer.code.DTO.GithubRepo;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /** @InterfaceAdapter */
-@Controller
+@RestController
+@AllArgsConstructor
+@Tag(name = "Analyzer")
 public class AnalyzerController {
 
     private CodeAnalysisService service;
 
-    public AnalyzerController(CodeAnalysisService service) {
-        this.service = service;
-    }
-
-    @GetMapping("/profile")
-    public String getProfilePage(Model model) {
-        model.addAttribute("isAnalyzing", false);
-        return "profile";
-    }
-
     @GetMapping("/analyze")
-    public String analyzeGitHubCode(GithubRepo repo, Model model) {
+    public HttpEntity<CodeReview> analyzeGitHubCode(GithubRepo repo) {
         CodeReview review = service.reviewGitHubSourceCode(repo);
-        model.addAttribute("review", review);
-        model.addAttribute("isAnalyzing", true);
-        return "profile";
+        review.add(linkTo(methodOn(AnalyzerController.class).analyzeGitHubCode(repo)).withSelfRel());
+        return new ResponseEntity<>(review, HttpStatus.OK);
     }
 }

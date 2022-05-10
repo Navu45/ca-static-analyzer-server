@@ -1,15 +1,17 @@
 package com.example.castaticanalyzer.authentication;
 
-import com.example.castaticanalyzer.mail.EmailSender;
-import com.example.castaticanalyzer.user.Role;
-import com.example.castaticanalyzer.user.User;
-import com.example.castaticanalyzer.user.UserDataGateway;
+import com.example.castaticanalyzer.authentication.mail.EmailSender;
+import com.example.castaticanalyzer.authentication.user.Role;
+import com.example.castaticanalyzer.authentication.user.User;
+import com.example.castaticanalyzer.authentication.user.UserDataGateway;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -18,18 +20,11 @@ import java.util.UUID;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class AuthenticationService {
     private UserDataGateway userRepository;
     private PasswordEncoder encoder;
     private EmailSender sender;
-
-
-    public AuthenticationService(UserDataGateway userRepository, PasswordEncoder encoder, EmailSender sender) {
-        this.userRepository = userRepository;
-        this.encoder = encoder;
-        this.sender = sender;
-    }
-
     public boolean activateUser(String code) {
         User user = userRepository.findByActivationCode(code);
 
@@ -40,9 +35,7 @@ public class AuthenticationService {
         }
         return false;
     }
-
-
-    public void save(User user) throws MessagingException {
+    public User save(User user) throws MessagingException {
         Set<Role> rolesSet = new HashSet<>();
         rolesSet.add(Role.USER);
         user.setRoles(rolesSet);
@@ -57,10 +50,14 @@ public class AuthenticationService {
         sender.send(user.getUsername(), "Activate your account. Clean Architecture Analyzer", message);
         System.err.println(user);
         System.err.println(user.getPassword().length());
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 }

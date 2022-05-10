@@ -3,9 +3,9 @@ package com.example.castaticanalyzer.analyzer;
 import com.example.castaticanalyzer.analyzer.codereview.CodeReview;
 import com.example.castaticanalyzer.analyzer.problems.Problem;
 import com.example.castaticanalyzer.analyzer.problems.ProblemType;
-import com.example.castaticanalyzer.code.DTO.Code;
-import com.example.castaticanalyzer.code.DTO.GithubRepo;
-import com.example.castaticanalyzer.code.gateways.CodeDataGateway;
+import com.example.castaticanalyzer.analyzer.code.DTO.Code;
+import com.example.castaticanalyzer.analyzer.code.DTO.GithubRepo;
+import com.example.castaticanalyzer.analyzer.code.gateways.CodeDataGateway;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

@@ -1,78 +1,100 @@
 package com.example.castaticanalyzer.authentication;
 
-import com.example.castaticanalyzer.user.User;
+import com.example.castaticanalyzer.authentication.exceptions.BadUserDataInputException;
+import com.example.castaticanalyzer.authentication.user.User;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.FieldError;
 
 import javax.mail.MessagingException;
+import java.util.*;
+
 /** @UseCase */
 
 @Component
+@RequiredArgsConstructor
+@Slf4j
 public class AuthenticationBoundary {
-    AuthenticationService authenticationService;
-    ValidationUtil validationUtil;
+    private final AuthenticationService authenticationService;
+    private final AuthenticationManager authenticationManager;
 
-    public AuthenticationBoundary(AuthenticationService authenticationService, ValidationUtil validationUtil) {
-        this.authenticationService = authenticationService;
-        this.validationUtil = validationUtil;
-    }
-    
-    public String handleRegistrationRequest(User user, BindingResult bindingResult, Model model) throws MessagingException {
+    public User register(Map<String, Object> response,
+                         User user, BindingResult bindingResult) throws MessagingException {
         boolean userExists = authenticationService.findByUsername(user.getUsername()) != null;
-        boolean inputInvalid = bindingResult.hasErrors();
+        boolean invalidInput = bindingResult.hasErrors();
         boolean notConfirmedPassword = user.getPassword() != null
                 && !user.getPassword().equals(user.getConfirmPassword());
 
-        System.err.println(userExists + " " + inputInvalid + " " + notConfirmedPassword);
-        if (userExists || inputInvalid || notConfirmedPassword)
+        if (userExists || invalidInput || notConfirmedPassword)
         {
-            if (inputInvalid)
-            {
-                model.mergeAttributes(validationUtil.getErrors(bindingResult));
-            }
-
-            if (userExists)
-            {
-                model.addAttribute("userExistsError", "User already exists with this email.");
+            if (userExists) {
+                FieldError error = new FieldError(
+                        "userExistsError",
+                        "username",
+                        user.getUsername(),
+                        false,
+                        null,
+                        null,
+                        "User already exists with this email.");
+                bindingResult.addError(error);
             }
 
             if (notConfirmedPassword) {
-                model.addAttribute("confirmationError", "Passwords are different.");
+                FieldError error = new FieldError(
+                        "confirmationError",
+                        "password",
+                        "Passwords are different.");
+                bindingResult.addError(error);
             }
-            return "registration";
+
+            throw new BadUserDataInputException(bindingResult.getFieldErrors());
         }
 
-        authenticationService.save(user);
-        model.addAttribute("message", "Activate your account. Activation code was sent to " + user.getUsername());
+        response.put("message", "Activate your account. Activation code was sent to " + user.getUsername());
+        return authenticationService.save(user);
+    }
+    public User authenticate(User userRequest, BindingResult bindingResult) {
 
-        return "login";
+        User user = null;
+        if (bindingResult.hasErrors())
+        {
+            ThrowUserNotFoundException(userRequest, bindingResult);
+        }
+        try {
+            Authentication auth = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(userRequest.getUsername(), userRequest.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            user = (User) auth.getPrincipal();
+        } catch (AuthenticationException ex) {
+            ex.printStackTrace();
+            ThrowUserNotFoundException(userRequest, bindingResult);
+        }
+        return user;
     }
 
-    public String handleLoginRequest(Model model, String error, String logout) {
-        User user = authenticationService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-
-        if (user != null ) {
-            if (!user.isActive()){
-                model.addAttribute("error", "Account is not activated." +
-                        " Activation code was sent to" + user.getUsername());
-                return "login";
-            }
-            return "redirect:/home";
-        }
-
-        if (error != null)
-            model.addAttribute("error", "Username or/and password is incorrect.");
-
-        if (logout != null) {
-            model.addAttribute("message", "Logged out successfully.");
-        }
-        return "login";
+    private void ThrowUserNotFoundException(User userRequest, BindingResult bindingResult)
+    {
+        bindingResult.addError(new FieldError(
+                "UserNotFound",
+                "username",
+                userRequest.getUsername(),
+                false,
+                null,
+                null,
+                "User with email " + userRequest.getUsername() + " not found"
+        ));
+        throw new BadUserDataInputException(bindingResult.getFieldErrors());
     }
 
-    public String handleActivationRequest(Model model, String code) {
+    public String activateUser(Model model, String code) {
         boolean isActivated = authenticationService.activateUser(code);
         if (isActivated){
             model.addAttribute("message", "User successfully activated.");

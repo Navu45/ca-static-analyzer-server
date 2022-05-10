@@ -1,4 +1,4 @@
-package com.example.castaticanalyzer.code.DTO;
+package com.example.castaticanalyzer.analyzer.code.DTO;
 
 import lombok.Getter;
 import lombok.Setter;

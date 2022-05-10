@@ -2,7 +2,7 @@ package com.example.castaticanalyzer.analyzer;
 
 import com.example.castaticanalyzer.analyzer.parsing.CodeParser;
 import com.example.castaticanalyzer.analyzer.problems.ProblemBuilder;
-import com.example.castaticanalyzer.code.DTO.Code;
+import com.example.castaticanalyzer.analyzer.code.DTO.Code;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

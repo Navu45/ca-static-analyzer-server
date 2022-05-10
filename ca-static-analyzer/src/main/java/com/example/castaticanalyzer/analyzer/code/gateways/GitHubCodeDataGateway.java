@@ -1,11 +1,10 @@
-package com.example.castaticanalyzer.code.gateways;
+package com.example.castaticanalyzer.analyzer.code.gateways;
 
-import com.example.castaticanalyzer.code.DTO.Code;
-import com.example.castaticanalyzer.code.DTO.GithubRepo;
+import com.example.castaticanalyzer.analyzer.code.DTO.Code;
+import com.example.castaticanalyzer.analyzer.code.DTO.GithubRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.net.ssl.HttpsURLConnection;
