@@ -1,4 +1,4 @@
-package com.example.castaticanalyzer.authentication.exceptions;
+package com.example.castaticanalyzer.exceptions;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -24,6 +24,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
+
+import java.net.URISyntaxException;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -217,10 +219,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    protected ResponseEntity<Object> handleBadCredentialsException(BadCredentialsException ex) {
+    protected ResponseEntity<Object> handleInputException(BadCredentialsException ex) {
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage(ex.getMessage());
         apiError.addValidationErrors(((BadUserDataInputException) ex).getErrors());
+        apiError.setDebugMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(URISyntaxException.class)
+    protected ResponseEntity<Object> handleInputException(URISyntaxException ex) {
+        ApiError apiError = new ApiError(BAD_REQUEST);
+        apiError.setMessage(ex.getMessage());
         apiError.setDebugMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }

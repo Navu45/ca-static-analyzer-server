@@ -2,6 +2,12 @@ package com.example.castaticanalyzer.analyzer.code.DTO;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.internal.constraintvalidators.hv.URLValidator;
+
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 
 /** @DomainEntity */
 
@@ -36,6 +42,19 @@ public class GithubRepo {
 
     public String getFileRawContentURL(String githubFilePath) {
         return "https://raw.githubusercontent.com/" + owner + '/' + repo + "/master/" + githubFilePath;
+    }
+
+    public boolean CheckURL() {
+        try
+        {
+            URL u = new URL(getSourceDirURL()); // this would check for the protocol
+            u.toURI(); // does the extra checking required for validation of URI
+        } catch (MalformedURLException e) {
+            return false;
+        } catch (URISyntaxException e) {
+            return false;
+        }
+        return true;
     }
 
     @Override

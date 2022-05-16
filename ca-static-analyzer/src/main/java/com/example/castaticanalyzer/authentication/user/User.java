@@ -27,6 +27,10 @@ public class User extends RepresentationModel<User> implements UserDetails   {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
+    private String firstName;
+    @Column
+    private String lastName;
+    @Column
     @NotBlank(message = "This field is required.")
     @Email(message = "Please enter an email.")
     private String username;
@@ -49,7 +53,6 @@ public class User extends RepresentationModel<User> implements UserDetails   {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
     }
-
 
     @Override
     public boolean isAccountNonExpired() {
@@ -74,7 +77,8 @@ public class User extends RepresentationModel<User> implements UserDetails   {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", confirmPassword='" + confirmPassword + '\'' +

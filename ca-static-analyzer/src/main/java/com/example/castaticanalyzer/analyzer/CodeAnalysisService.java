@@ -6,9 +6,13 @@ import com.example.castaticanalyzer.analyzer.problems.ProblemType;
 import com.example.castaticanalyzer.analyzer.code.DTO.Code;
 import com.example.castaticanalyzer.analyzer.code.DTO.GithubRepo;
 import com.example.castaticanalyzer.analyzer.code.gateways.CodeDataGateway;
+import com.example.castaticanalyzer.exceptions.BadUserDataInputException;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.FieldError;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +33,11 @@ public class CodeAnalysisService {
     }
 
     public CodeReview reviewGitHubSourceCode(GithubRepo repo) {
+
+        if (!repo.CheckURL())
+        {
+            throw new BadUserDataInputException("Github Info about repo is not right:" + repo.getRepo());
+        }
         List<Code> codeList = new ArrayList<>();
         try {
             codeList = githubCodeDataGateway.getSourceCode(repo);

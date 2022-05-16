@@ -1,13 +1,12 @@
 package com.example.castaticanalyzer.authentication;
 
-import com.example.castaticanalyzer.authentication.exceptions.BadUserDataInputException;
+import com.example.castaticanalyzer.exceptions.BadUserDataInputException;
 import com.example.castaticanalyzer.authentication.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;

@@ -1,4 +1,4 @@
-package com.example.castaticanalyzer.authentication.exceptions;
+package com.example.castaticanalyzer.exceptions;
 
 import lombok.Getter;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,6 +20,11 @@ public class BadUserDataInputException extends BadCredentialsException {
 
     public BadUserDataInputException(List<FieldError> errors) {
         super("Wrong email or/and password!");
+        this.errors = errors;
+    }
+
+    public BadUserDataInputException(String message, List<FieldError> errors) {
+        super(message);
         this.errors = errors;
     }
 }

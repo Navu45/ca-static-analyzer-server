@@ -1,4 +1,4 @@
-package com.example.castaticanalyzer.authentication.exceptions;
+package com.example.castaticanalyzer.exceptions;
 
 
 import org.apache.commons.lang.StringUtils;
