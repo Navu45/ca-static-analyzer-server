@@ -1,5 +1,7 @@
 package com.example.castaticanalyzer.authentication.user;
 
+import com.example.castaticanalyzer.analyzer.code.DTO.GithubRepo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,7 +27,10 @@ public class User extends RepresentationModel<User> implements UserDetails   {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
+    @OneToMany(mappedBy="user")
+    private Collection<GithubRepo> items;
     @Column
     private String firstName;
     @Column

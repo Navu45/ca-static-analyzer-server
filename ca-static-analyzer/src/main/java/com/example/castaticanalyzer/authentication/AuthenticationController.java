@@ -2,6 +2,7 @@ package com.example.castaticanalyzer.authentication;
 
 import com.example.castaticanalyzer.authentication.security.JwtTokenUtil;
 import com.example.castaticanalyzer.authentication.user.User;
+import com.fasterxml.jackson.databind.util.ObjectBuffer;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,7 @@ public class AuthenticationController {
                                                BindingResult bindingResult) throws MessagingException {
         Map<String, Object> response = new HashMap<>();
         User user = boundary.register(response, userForm, bindingResult);
-        response.put("user", user);
+        response.put("status", HttpStatus.CREATED.value());
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -51,6 +52,7 @@ public class AuthenticationController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, jwtTokenUtil.generateToken(user))
+                .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION)
                 .body(response);
     }
 

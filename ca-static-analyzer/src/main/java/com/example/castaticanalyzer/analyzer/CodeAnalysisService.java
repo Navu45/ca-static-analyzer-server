@@ -1,12 +1,16 @@
 package com.example.castaticanalyzer.analyzer;
 
+import com.example.castaticanalyzer.analyzer.code.gateways.SavedGitHubReposGateway;
 import com.example.castaticanalyzer.analyzer.codereview.CodeReview;
 import com.example.castaticanalyzer.analyzer.problems.Problem;
 import com.example.castaticanalyzer.analyzer.problems.ProblemType;
 import com.example.castaticanalyzer.analyzer.code.DTO.Code;
 import com.example.castaticanalyzer.analyzer.code.DTO.GithubRepo;
 import com.example.castaticanalyzer.analyzer.code.gateways.CodeDataGateway;
+import com.example.castaticanalyzer.authentication.user.User;
 import com.example.castaticanalyzer.exceptions.BadUserDataInputException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
 
@@ -20,17 +24,13 @@ import java.util.List;
 /** @UseCase */
 
 @Service
+@RequiredArgsConstructor
 public class CodeAnalysisService {
 
-    CodeDataGateway githubCodeDataGateway;
+    private final CodeDataGateway githubCodeDataGateway;
+    private final SavedGitHubReposGateway databaseRepoGateway;
+    private final Analyzer analyzer;
 
-    Analyzer analyzer;
-
-    public CodeAnalysisService(CodeDataGateway githubCodeDataGateway,
-                               Analyzer analyzer) {
-        this.githubCodeDataGateway = githubCodeDataGateway;
-        this.analyzer = analyzer;
-    }
 
     public CodeReview reviewGitHubSourceCode(GithubRepo repo) {
 
@@ -50,5 +50,16 @@ public class CodeAnalysisService {
         }
 
         return new CodeReview(problems, repo, LocalDateTime.now());
+    }
+
+    public GithubRepo save(GithubRepo repo) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        repo.setUser(user);
+        return databaseRepoGateway.save(repo);
+    }
+
+    public List<GithubRepo> getAllRepos() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return databaseRepoGateway.findByUser(user);
     }
 }
